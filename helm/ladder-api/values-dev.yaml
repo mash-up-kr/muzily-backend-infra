@@ -8,7 +8,7 @@ image:
   repository: mashupladder/ladder-api
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.0.0"
+  tag: "0.0.2"
 
 env:
   SPRING_PROFILES_ACTIVE: local # TODO : 인프라 구성된 이후에 dev 로 변경
