@@ -25,17 +25,6 @@ livenessProbe:
 readinessProbe:
   path: /search/actuator/health/readiness
   port: http
-ingress:
-  enabled: true
-  className: ''
-  annotations:
-    kubernetes.io/ingress.class: traefik
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /search
-          pathType: Prefix
-  tls: [ ]
 resources: { }
 autoscaling:
   enabled: false

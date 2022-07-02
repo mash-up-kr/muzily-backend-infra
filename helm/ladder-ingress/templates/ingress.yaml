@@ -1,12 +1,11 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "ladder-api.fullname" . -}}
-{{- $svcPort := .Values.service.port -}}
+{{- $fullName := include "ladder-ingress.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "ladder-api.labels" . | nindent 4 }}
+    {{- include "ladder-ingress.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -31,9 +30,9 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
-                name: {{ $fullName }}
+                name: {{ .serviceName }}
                 port:
-                  number: {{ $svcPort }}
+                  number: {{ .servicePort }}
           {{- end }}
     {{- end }}
 {{- end }}
