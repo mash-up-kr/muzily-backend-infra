@@ -5,16 +5,16 @@ image:
   tag: 0.0.1
 env:
   SPRING_PROFILES_ACTIVE: local
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
 serviceAccount:
   create: true
-  annotations: { }
+  annotations: {}
   name: ''
-podAnnotations: { }
-podSecurityContext: { }
-securityContext: { }
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
 service:
   type: ClusterIP
   port: 9001
@@ -25,12 +25,12 @@ livenessProbe:
 readinessProbe:
   path: /search/actuator/health/readiness
   port: http
-resources: { }
+resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+nodeSelector: {}
+tolerations: []
+affinity: {}
