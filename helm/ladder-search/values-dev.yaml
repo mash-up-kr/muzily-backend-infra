@@ -1,0 +1,47 @@
+replicaCount: 1
+image:
+  repository: mashupladder/ladder-search
+  pullPolicy: Always
+  tag: 0.0.1
+env:
+  SPRING_PROFILES_ACTIVE: local
+imagePullSecrets: [ ]
+nameOverride: ''
+fullnameOverride: ''
+serviceAccount:
+  create: true
+  annotations: { }
+  name: ''
+podAnnotations: { }
+podSecurityContext: { }
+securityContext: { }
+service:
+  type: ClusterIP
+  port: 9001
+  targetPort: 9001
+livenessProbe:
+  path: /search/actuator/health/liveness
+  port: http
+readinessProbe:
+  path: /search/actuator/health/readiness
+  port: http
+ingress:
+  enabled: true
+  className: ''
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /search
+          pathType: Prefix
+  tls: [ ]
+resources: { }
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+nodeSelector: { }
+tolerations: [ ]
+affinity: { }
