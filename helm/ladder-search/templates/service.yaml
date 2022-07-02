@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "ladder-search.fullhhname" . }}
+  name: {{ include "ladder-search.fullname" . }}
   labels:
     {{- include "ladder-search.labels" . | nindent 4 }}
 spec:
