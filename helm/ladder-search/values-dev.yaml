@@ -2,20 +2,20 @@ replicaCount: 1
 image:
   repository: mashupladder/ladder-search
   pullPolicy: Always
-  tag: 0.0.1-2602407277
+  tag: 0.0.1-2610313026
 env:
   SPRING_PROFILES_ACTIVE: local
   SECRET_YOUTUBE_VIDEO_KEY: ''
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
 serviceAccount:
   create: true
-  annotations: { }
+  annotations: {}
   name: ''
-podAnnotations: { }
-podSecurityContext: { }
-securityContext: { }
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
 service:
   type: ClusterIP
   port: 9001
@@ -40,6 +40,6 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-nodeSelector: { }
-tolerations: [ ]
-affinity: { }
+nodeSelector: {}
+tolerations: []
+affinity: {}
