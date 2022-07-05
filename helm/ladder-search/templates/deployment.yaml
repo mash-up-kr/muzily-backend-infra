@@ -45,7 +45,7 @@ spec:
             - name: JASYPT_ENCRYPTOR_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: { { include "ladder-search.fullname" . } }
+                  name: {{ include "ladder-search.fullname" . }}
                   key: jasyptEncryptorPassword
           livenessProbe:
             httpGet:
