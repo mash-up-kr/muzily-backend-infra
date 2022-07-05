@@ -42,6 +42,11 @@ spec:
             - name: "{{ $key }}"
               value: "{{ $value }}"
               {{- end }}
+            - name: JASYPT_ENCRYPTOR_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: { { include "ladder-search.fullname" . } }
+                  key: jasyptEncryptorPassword
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path }}
