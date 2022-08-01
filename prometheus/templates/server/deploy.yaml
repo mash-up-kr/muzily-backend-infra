@@ -136,8 +136,8 @@ spec:
               {{- if .Values.server.probeHeaders }}
               httpHeaders:
               {{- range .Values.server.probeHeaders}}
-              - name: {{ .name }}
-                value: {{ .value }}
+                - name: {{ .name }}
+                  value: {{ .value }}
               {{- end }}
               {{- end }}
             {{- else }}
@@ -158,8 +158,8 @@ spec:
               {{- if .Values.server.probeHeaders }}
               httpHeaders:
               {{- range .Values.server.probeHeaders}}
-              - name: {{ .name }}
-                value: {{ .value }}
+                - name: {{ .name }}
+                  value: {{ .value }}
               {{- end }}
               {{- end }}
             {{- else }}
@@ -181,8 +181,8 @@ spec:
               {{- if .Values.server.probeHeaders }}
               httpHeaders:
               {{- range .Values.server.probeHeaders}}
-              - name: {{ .name }}
-                value: {{ .value }}
+                - name: {{ .name }}
+                  value: {{ .value }}
               {{- end }}
               {{- end }}
             {{- else }}
@@ -321,7 +321,7 @@ spec:
           {{- if .Values.server.emptyDir.sizeLimit }}
             sizeLimit: {{ .Values.server.emptyDir.sizeLimit }}
           {{- else }}
-            {}
+            { }
           {{- end -}}
         {{- end -}}
 {{- end -}}

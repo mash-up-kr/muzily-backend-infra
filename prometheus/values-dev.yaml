@@ -11,7 +11,7 @@ imagePullSecrets:
 ##
 serviceAccounts:
   alertmanager:
-    create: true
+    create: false
     name:
     annotations: { }
   nodeExporter:
@@ -19,7 +19,7 @@ serviceAccounts:
     name:
     annotations: { }
   pushgateway:
-    create: true
+    create: false
     name:
     annotations: { }
   server:
@@ -433,7 +433,7 @@ configmapReload:
   alertmanager:
     ## If false, the configmap-reload container will not be deployed
     ##
-    enabled: true
+    enabled: false
 
     ## configmap-reload container name
     ##
@@ -639,12 +639,11 @@ nodeExporter:
     ##
     externalIPs: [ ]
 
-    hostPort: 8000
+    hostPort: 9100
     loadBalancerIP: ""
     loadBalancerSourceRanges: [ ]
-    servicePort: 8000
-    nodePort: 30001
-    type: NodePort
+    servicePort: 9100
+    type: ClusterIP
 
 server:
   ## Prometheus server container name
@@ -757,13 +756,17 @@ server:
   global:
     ## How frequently to scrape targets by default
     ##
-    scrape_interval: 1m
+    scrape_interval: 30s # 15초마다 매트릭을 수집한다. 기본은 1분.
     ## How long until a scrape request times out
     ##
     scrape_timeout: 10s
     ## How frequently to evaluate rules
     ##
-    evaluation_interval: 1m
+    evaluation_interval: 30s # 1분마다 규칙을 평가한다. 기본은 1분.
+
+    external_labels:
+      monitor: 'ladder-prometheus'
+
   ## https://prometheus.io/docs/prometheus/latest/configuration/configuration/#remote_write
   ##
   remoteWrite: [ ]
@@ -917,7 +920,7 @@ server:
     ## If true, Prometheus server will create/use a Persistent Volume Claim
     ## If false, use emptyDir
     ##
-    enabled: true
+    enabled: false
 
     ## Prometheus server data Persistent Volume access modes
     ## Must match those of existing PV or dynamic provisioner
@@ -1042,30 +1045,30 @@ server:
   ##
   tcpSocketProbeEnabled: false
   probeScheme: HTTP
-  readinessProbeInitialDelay: 30
-  readinessProbePeriodSeconds: 5
-  readinessProbeTimeout: 4
+  readinessProbeInitialDelay: 90
+  readinessProbePeriodSeconds: 10
+  readinessProbeTimeout: 10
   readinessProbeFailureThreshold: 3
   readinessProbeSuccessThreshold: 1
-  livenessProbeInitialDelay: 30
-  livenessProbePeriodSeconds: 15
+  livenessProbeInitialDelay: 90
+  livenessProbePeriodSeconds: 10
   livenessProbeTimeout: 10
   livenessProbeFailureThreshold: 3
   livenessProbeSuccessThreshold: 1
   startupProbe:
     enabled: false
-    periodSeconds: 5
-    failureThreshold: 30
+    periodSeconds: 10
+    failureThreshold: 120
     timeoutSeconds: 10
 
   ## Prometheus server resource requests and limits
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
     requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
       cpu: 500m
       memory: 512Mi
 
@@ -1468,16 +1471,106 @@ serverFiles:
       - /etc/config/alerts
 
     scrape_configs:
-      - job_name: "promethus"
+      - job_name: "nodeExporter"
+        metrics_path: "/metrics"
         static_configs:
           - targets:
-              - localhost:9090
+              - "localhost:9100"
+        kubernetes_sd_configs:
+          - role: node
+
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+          - source_labels: [ __meta_kubernetes_role ]
+            action: replace
+            target_label: kubernetes_role
+          - source_labels: [ __address__ ]
+            regex: '(.*):10250'
+            replacement: '${1}:9100'
+            target_label: __address__
+          - source_labels: [ __meta_kubernetes_node_label_kubernetes_io_hostname ]
+            regex: '(.*)'
+            replacement: '${1}:9100'
+            target_label: instance
 
       - job_name: "ladder-api"
         metrics_path: "/api/actuator/prometheus"
         static_configs:
           - targets:
               - "118.67.142.9"
+
+        kubernetes_sd_configs:
+          - role: endpoints
+
+        relabel_configs:
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
+            action: keep
+            regex: true
+
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scheme ]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_path ]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+
+          - source_labels: [ __address__, __meta_kubernetes_service_annotation_prometheus_io_port ]
+            action: replace
+            target_label: __address__
+            regex: (.+)(?::\d+);(\d+)
+            replacement: $1:$2
+
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+
+          - source_labels: [ __meta_kubernetes_namespace ]
+            action: replace
+            target_label: kubernetes_namespace
+
+          - source_labels: [ __meta_kubernetes_service_name ]
+            action: replace
+            target_label: kubernetes_name
+
+      - job_name: "ladder-search"
+        metrics_path: "/search/actuator/prometheus"
+        static_configs:
+          - targets:
+              - "118.67.142.9"
+
+        kubernetes_sd_configs:
+          - role: endpoints
+
+        relabel_configs:
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
+            action: keep
+            regex: true
+
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scheme ]
+            action: replace
+            target_label: __scheme__
+            regex: (https?)
+
+          - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_path ]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+
+          - source_labels: [ __address__, __meta_kubernetes_service_annotation_prometheus_io_port ]
+            action: replace
+            target_label: __address__
+            regex: (.+)(?::\d+);(\d+)
+            replacement: $1:$2
+
+          - action: labelmap
+            regex: __meta_kubernetes_service_label_(.+)
+
+          - source_labels: [ __meta_kubernetes_service_name ]
+            action: replace
+            target_label: kubernetes_name
 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)

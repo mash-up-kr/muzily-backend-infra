@@ -4,7 +4,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
   hosts:
-    - host: chart-example.local
+    - host: dev.api.musily.app
       paths:
         - path: /
           pathType: Prefix

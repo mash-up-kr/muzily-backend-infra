@@ -128,7 +128,7 @@ spec:
               hostPort: {{ .Values.server.hostPort }}
           {{- end }}
           readinessProbe:
-            {{- if not .Values.server.tcpSocketProbeEnabled }}
+            {{- if .Values.server.tcpSocketProbeEnabled }}
             httpGet:
               path: {{ .Values.server.prefixURL }}/-/ready
               port: 9090
@@ -143,7 +143,7 @@ spec:
             failureThreshold: {{ .Values.server.readinessProbeFailureThreshold }}
             successThreshold: {{ .Values.server.readinessProbeSuccessThreshold }}
           livenessProbe:
-            {{- if not .Values.server.tcpSocketProbeEnabled }}
+            {{- if .Values.server.tcpSocketProbeEnabled }}
             httpGet:
               path: {{ .Values.server.prefixURL }}/-/healthy
               port: 9090

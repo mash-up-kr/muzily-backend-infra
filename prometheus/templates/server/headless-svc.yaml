@@ -30,7 +30,6 @@ spec:
       nodePort: {{ .Values.server.statefulSet.headless.gRPC.nodePort }}
     {{- end }}
     {{- end }}
-
   selector:
     {{- include "prometheus.server.matchLabels" . | nindent 4 }}
 {{- end -}}

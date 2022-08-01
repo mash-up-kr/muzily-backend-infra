@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: mashupladder/ladder-api
   pullPolicy: Always
-  tag: 0.0.1-2663343099
+  tag: 0.0.1-2758369406
 env:
   SPRING_PROFILES_ACTIVE: local
 imagePullSecrets: []
@@ -12,7 +12,10 @@ serviceAccount:
   create: true
   annotations: {}
   name: ''
-podAnnotations: {}
+podAnnotations:
+  prometheus.io/scrape: 'true'
+  prometheus.io/port: '9000'
+  prometheus.io/path: '/api/actuator/prometheus'
 podSecurityContext: {}
 securityContext: {}
 service:
@@ -20,10 +23,10 @@ service:
   port: 9000
   targetPort: 9000
 livenessProbe:
-  path: /api/actuator/health/liveness
+  path: /api/health/liveness
   port: http
 readinessProbe:
-  path: /api/actuator/health/readiness
+  path: /api/health/readiness
   port: http
 resources:
   requests:

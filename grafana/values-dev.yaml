@@ -25,7 +25,7 @@ serviceAccount:
 replicas: 1
 
 ## Create a headless service for the deployment
-headlessService: false
+headlessService: true
 
 ## Create HorizontalPodAutoscaler object for deployment type
 #
@@ -212,13 +212,13 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: { }
-#  limits:
-#    cpu: 100m
-#    memory: 128Mi
-#  requests:
-#    cpu: 100m
-#    memory: 128Mi
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
 
 ## Node labels for pod assignment
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -541,7 +541,7 @@ dashboards:
   #     json: |
   #       $RAW_JSON
   #   custom-dashboard:
-  #     file: dashboards/custom-dashboard.json
+#     file: dashboards/custom-dashboard.json
 #   prometheus-stats:
 #     gnetId: 2
 #     revision: 2
