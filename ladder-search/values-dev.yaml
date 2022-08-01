@@ -2,7 +2,7 @@ replicaCount: 2
 image:
   repository: mashupladder/ladder-search
   pullPolicy: Always
-  tag: 0.0.1-2746096395
+  tag: 0.0.1-2776846058
 env:
   SPRING_PROFILES_ACTIVE: local
   SECRET_YOUTUBE_VIDEO_KEY: ''
@@ -16,7 +16,7 @@ serviceAccount:
 podAnnotations:
   prometheus.io/scrape: 'true'
   prometheus.io/port: '9001'
-  prometheus.io/path: '/search/actuator/prometheus'
+  prometheus.io/path: /search/actuator/prometheus
 podSecurityContext: {}
 securityContext: {}
 service:
