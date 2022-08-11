@@ -2,7 +2,7 @@ replicaCount: 2
 image:
   repository: mashupladder/ladder-search
   pullPolicy: Always
-  tag: 0.0.1-2776846058
+  tag: 0.0.1-2826950306
 env:
   SPRING_PROFILES_ACTIVE: local
   SECRET_YOUTUBE_VIDEO_KEY: ''
