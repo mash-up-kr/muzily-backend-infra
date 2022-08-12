@@ -15,7 +15,7 @@ serviceAccount:
 podAnnotations:
   prometheus.io/scrape: 'true'
   prometheus.io/port: '9000'
-  prometheus.io/path: /api/actuator/prometheus
+  prometheus.io/path: /api/monitoring/prometheus
 podSecurityContext: {}
 securityContext: {}
 service:
@@ -23,10 +23,10 @@ service:
   port: 9000
   targetPort: 9000
 livenessProbe:
-  path: /api/health/liveness
+  path: /api/monitoring/health/liveness
   port: http
 readinessProbe:
-  path: /api/health/readiness
+  path: /api/monitoring/health/readiness
   port: http
 resources:
   requests:
