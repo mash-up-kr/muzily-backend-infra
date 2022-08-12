@@ -6,28 +6,28 @@ image:
 env:
   SPRING_PROFILES_ACTIVE: local
   SECRET_YOUTUBE_VIDEO_KEY: ''
-imagePullSecrets: []
+imagePullSecrets: [ ]
 nameOverride: ''
 fullnameOverride: ''
 serviceAccount:
   create: true
-  annotations: {}
+  annotations: { }
   name: ''
 podAnnotations:
   prometheus.io/scrape: 'true'
   prometheus.io/port: '9001'
   prometheus.io/path: /search/monitoring/prometheus
-podSecurityContext: {}
-securityContext: {}
+podSecurityContext: { }
+securityContext: { }
 service:
   type: ClusterIP
   port: 9001
   targetPort: 9001
 livenessProbe:
-  path: /search/monitoring/health/liveness
+  path: /search/health
   port: http
 readinessProbe:
-  path: /search/monitoring/health/readiness
+  path: /search/health
   port: http
 resources:
   requests:
@@ -43,6 +43,6 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
-nodeSelector: {}
-tolerations: []
-affinity: {}
+nodeSelector: { }
+tolerations: [ ]
+affinity: { }
