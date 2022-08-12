@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: mashupladder/ladder-api
   pullPolicy: Always
-  tag: 0.0.1-2846290913
+  tag: 0.0.1-2846336504
 env:
   SPRING_PROFILES_ACTIVE: local
 imagePullSecrets: []
