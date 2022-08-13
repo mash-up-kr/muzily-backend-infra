@@ -23,10 +23,10 @@ service:
   port: 9000
   targetPort: 9000
 livenessProbe:
-  path: /api/health
+  path: /api/liveness
   port: http
 readinessProbe:
-  path: /api/health
+  path: /api/readiness
   port: http
 resources:
   requests:

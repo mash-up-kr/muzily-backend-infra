@@ -24,10 +24,10 @@ service:
   port: 9001
   targetPort: 9001
 livenessProbe:
-  path: /search/health
+  path: /search/liveness
   port: http
 readinessProbe:
-  path: /search/health
+  path: /search/readiness
   port: http
 resources:
   requests:
