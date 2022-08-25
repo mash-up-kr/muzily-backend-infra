@@ -595,12 +595,13 @@ nodeExporter:
   ## Ref: https://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources:
-    limits:
-      cpu: 200m
-      memory: 50Mi
     requests:
-      cpu: 100m
+      cpu: 0.1
       memory: 30Mi
+    limits:
+      cpu: 0.2
+      memory: 50Mi
+
   container:
     securityContext:
       allowPrivilegeEscalation: false
@@ -1066,10 +1067,10 @@ server:
   ##
   resources:
     requests:
-      cpu: 100m
+      cpu: 0.1
       memory: 256Mi
     limits:
-      cpu: 500m
+      cpu: 0.5
       memory: 512Mi
 
   # Required for use in managed kubernetes clusters (such as AWS EKS) with custom CNI (such as calico),
