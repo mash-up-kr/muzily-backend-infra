@@ -9,9 +9,9 @@ ingress:
         - path: /
           pathType: Prefix
           servicePort: 9000
-          serviceName: ladder-api
+          serviceName: ladder-api-dev
         - path: /search
           pathType: Prefix
           servicePort: 9001
-          serviceName: ladder-search
+          serviceName: ladder-search-api-dev
   tls: [ ]
