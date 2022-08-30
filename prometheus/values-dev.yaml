@@ -1499,7 +1499,7 @@ serverFiles:
         metrics_path: "/api/actuator/prometheus"
         static_configs:
           - targets:
-              - "118.67.142.9"
+              - "dev.api.musily.app"
 
         kubernetes_sd_configs:
           - role: endpoints
@@ -1540,7 +1540,7 @@ serverFiles:
         metrics_path: "/search/actuator/prometheus"
         static_configs:
           - targets:
-              - "118.67.142.9"
+              - "dev.api.musily.app"
 
         kubernetes_sd_configs:
           - role: endpoints
