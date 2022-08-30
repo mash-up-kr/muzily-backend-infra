@@ -4,7 +4,7 @@ image:
   pullPolicy: Always
   tag: 0.0.2-2952918202
 env:
-  SPRING_PROFILES_ACTIVE: dev
+  SPRING_PROFILES_ACTIVE: test
 imagePullSecrets: []
 nameOverride: ''
 fullnameOverride: ''
