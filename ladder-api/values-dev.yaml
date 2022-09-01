@@ -30,16 +30,16 @@ readinessProbe:
   port: http
 resources:
   requests:
-    cpu: 0.1
+    cpu: 100m
     memory: 256Mi
-    ephemeral-storage: 1Gi
+    ephemeral-storage: 2Gi
   limits:
-    cpu: 0.5
+    cpu: 500m
     memory: 512Mi
     ephemeral-storage: 4Gi
 autoscaling:
   enabled: false
-  minReplicas: 2
+  minReplicas: 1
   maxReplicas: 4
   targetCPUUtilizationPercentage: 80
 nodeSelector: {}

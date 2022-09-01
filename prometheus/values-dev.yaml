@@ -326,13 +326,12 @@ alertmanager:
   ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources:
-    { }
-  # limits:
-  #   cpu: 10m
-  #   memory: 32Mi
-  # requests:
-  #   cpu: 10m
-  #   memory: 32Mi
+   limits:
+     cpu: 10m
+     memory: 32Mi
+   requests:
+     cpu: 10m
+     memory: 32Mi
 
   # Custom DNS configuration to be added to alertmanager pods
   dnsConfig:
@@ -429,7 +428,13 @@ configmapReload:
     ## configmap-reload resource requests and limits
     ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
     ##
-    resources: { }
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
   alertmanager:
     ## If false, the configmap-reload container will not be deployed
     ##
@@ -471,7 +476,13 @@ configmapReload:
     ## configmap-reload resource requests and limits
     ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
     ##
-    resources: { }
+    resources:
+      limits:
+        cpu: 10m
+        memory: 32Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
 
 kubeStateMetrics:
   ## If false, kube-state-metrics sub-chart will not be installed
@@ -595,13 +606,12 @@ nodeExporter:
   ## Ref: https://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources:
-    requests:
-      cpu: 0.1
-      memory: 30Mi
     limits:
-      cpu: 0.2
+      cpu: 20m
       memory: 50Mi
-
+    requests:
+      cpu: 10m
+      memory: 30Mi
   container:
     securityContext:
       allowPrivilegeEscalation: false
@@ -1067,11 +1077,11 @@ server:
   ##
   resources:
     requests:
-      cpu: 0.1
-      memory: 256Mi
+      cpu: 50m
+      memory: 128Mi
     limits:
-      cpu: 0.5
-      memory: 512Mi
+      cpu: 100m
+      memory: 256Mi
 
   # Required for use in managed kubernetes clusters (such as AWS EKS) with custom CNI (such as calico),
   # because control-plane managed by AWS cannot communicate with pods' IP CIDR and admission webhooks are not working
